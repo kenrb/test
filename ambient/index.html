@@ -15,29 +15,36 @@
     <form class="space-y-4" action="site.html" method="get">
       <p>Password-based sign-in is here to save credentials to a password manager.</p>
       <p>WebAuthn Conditional UI is not supported because it does not yet work with Ambient in Chrome.</p>
-      <label for="username">Username:</label>
-      <input name="username" id="login-username" value="" required autocomplete="username" autofocus/>
-      <label for="username">Password:</label>
-      <input id="password" value="" required type="password" autocomplete="current-password webauthn"/>
-      <div>
-        <button id="manual-login" type="submit">
-          Log-in with vanilla WebAuthn
-        </button>
-        <button id="login" type="submit">
-          <strong>Sign in with password</strong>
-        </button>
-      </div> 
+      <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+              Username:
+          </label>
+          <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                 type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+          <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                  Password:
+              </label>
+              <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                     type="password" id="password" name="password" placeholder="••••••••" required>
+          </div>
+          <button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300" 
+                  type="submit">
+              Sign In With Password
+          </button>
     </form>
   
-    <button onclick="window.location='create-account.html'">
+    <button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300" onclick="window.location='create-account.html'">
       <strong>Create a passkey for this site</strong>
     </button>
 
     <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-md mb-6 text-sm">
         <h2 class="font-semibold mb-2">About this page</h2>
-        <p>This page is for testing the proposed <a href="https://github.com/w3c/webauthn/wiki/Explainer:-WebAuthn-Ambient-Signin-UI">Ambient UI mode</a> for Web Authentication.</p>
+        <p>This page is for testing the proposed <a class="text-blue-600 underline hover:text-blue-800 hover:no-underline transition duration-200" href="https://github.com/w3c/webauthn/wiki/Explainer:-WebAuthn-Ambient-Signin-UI">Ambient UI mode</a> for Web Authentication.</p>
+        <br/>
         <ul class="list-disc list-inside space-y-1">
-                <li>Use <strong class="font-semibold">Google Chrome</strong> or a Chromium build. Any Chrome channel works but prefer <a href="https://www.google.com/intl/en_ca/chrome/canary/">Chrome Canary channel</a> which will have any recent changes or bug fixes.</li>
+                <li>Use <strong class="font-semibold">Google Chrome</strong> or a Chromium build. Any Chrome channel works but prefer <a class="text-blue-600 underline hover:text-blue-800 hover:no-underline transition duration-200" href="https://www.google.com/intl/en_ca/chrome/canary/">Chrome Canary channel</a> which will have any recent changes or bug fixes.</li>
                 <li>Enable <strong style="font-family: monospace;">Experimental Web Platform features</strong> in chrome://flags.</li>
                 <li>Create a passkey for this site using the button above, then return to this page.</li>
             </ul>
