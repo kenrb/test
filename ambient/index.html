@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Authentication Ambient Mode Passkey Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg mb-8">
+    <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Web Authentication Ambient Mode Passkey Demo</h1>
+    <p>Note that this is exercising a Chrome prototype that is subject to change.</p>
+    <p>Neither the current API form nor the currently available UI are expected to be final.</p>
+    <form class="space-y-4" action="site.html" method="get">
+      <p>Password-based sign-in is here to save credentials to a password manager.</p>
+      <p>WebAuthn Conditional UI is not supported because it does not yet work with Ambient in Chrome.</p>
+      <label for="username">Username:</label>
+      <input name="username" id="login-username" value="" required autocomplete="username" autofocus/>
+      <label for="username">Password:</label>
+      <input id="password" value="" required type="password" autocomplete="current-password webauthn"/>
+      <div>
+        <button id="manual-login" type="submit">
+          Log-in with vanilla WebAuthn
+        </button>
+        <button id="login" type="submit">
+          <strong>Sign in with password</strong>
+        </button>
+      </div> 
+    </form>
+  
+    <button onclick="window.location='create-account.html'">
+      <strong>Create a passkey for this site</strong>
+    </button>
+
+    <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-md mb-6 text-sm">
+        <h2 class="font-semibold mb-2">About this page</h2>
+        <p>This page is for testing the proposed <a href="https://github.com/w3c/webauthn/wiki/Explainer:-WebAuthn-Ambient-Signin-UI">Ambient UI mode</a> for Web Authentication.</p>
+        <ul class="list-disc list-inside space-y-1">
+                <li>Use <strong class="font-semibold">Google Chrome</strong> or a Chromium build. Any Chrome channel works but prefer <a href="https://www.google.com/intl/en_ca/chrome/canary/">Chrome Canary channel</a> which will have any recent changes or bug fixes.</li>
+                <li>Enable <strong style="font-family: monospace;">Experimental Web Platform features</strong> in chrome://flags.</li>
+                <li>Create a passkey for this site using the button above, then return to this page.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+  
