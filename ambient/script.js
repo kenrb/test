@@ -115,15 +115,16 @@ function storeInfoAndRedirect(url, username) {
 async function ambientSignIn() {
     const challengeBuffer = generateRandomBuffer();
     let getOptions = {
+            mediation: "conditional",
             publicKey: {
                 challenge: challengeBuffer,
                 timeout: 300000,
-                userVerification: 'preferred',
+                userVerification: "preferred",
                 rpId: window.location.hostname,
-                display: 'ambient',
+                display: "ambient",
                 allowCredentials: []
             },
-            mediation: 'conditional' };
+            password:true};
 
     const credential = await navigator.credentials.get(getOptions);
 
