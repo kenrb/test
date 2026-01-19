@@ -122,6 +122,7 @@ async function ambientSignIn() {
                 timeout: 300000,
                 userVerification: 'preferred',
                 rpId: window.location.hostname,
+                mediation: 'conditional',
                 display: 'ambient',
                 allowCredentials: []
             };
