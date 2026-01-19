@@ -113,11 +113,9 @@ function storeInfoAndRedirect(url, username) {
 }
 
 async function ambientSignIn() {
-    let getOptions = {};
     const challengeBuffer = generateRandomBuffer();
-
-            const publicKeyCredentialRequestOptions = 
-    getOptions.publicKey = {
+    let getOptions = {
+            publicKey: {
                 challenge: challengeBuffer,
                 timeout: 300000,
                 userVerification: 'preferred',
@@ -125,7 +123,8 @@ async function ambientSignIn() {
                 mediation: 'conditional',
                 display: 'ambient',
                 allowCredentials: []
-            };
+            },
+            mediation: 'conditional' };
 
     const credential = await navigator.credentials.get(getOptions);
 
