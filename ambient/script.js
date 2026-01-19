@@ -1,5 +1,7 @@
 const messageArea = document.getElementById('messageArea');
 const createPasskeyButton = document.getElementById('createPasskeyButton');
+let abortController;
+let abortSignal;
 
 function showMessage(text, isError = false) {
     if (!messageArea) return;
@@ -19,6 +21,11 @@ function generateRandomBuffer(len = 32) {
 }
 
 async function createPasskey(currentUsername) {
+    if (abortController) {
+        console.log("Aborting conditional request to create a passkey.");
+        abortController.abort();  
+    }
+
     if (currentUsername === "") {
         showMessage("Enter a username for the new passkey", true);
         return;
@@ -91,7 +98,7 @@ async function createPasskey(currentUsername) {
         } else if (error.name === 'InvalidStateError') {
              errorMessage = "Passkey creation failed: Invalid state. Perhaps one already exists for this user/device?";
         }
-        showPasskeyMessage(errorMessage, true);
+        showMessage(errorMessage, true);
     } finally {
          if(createPasskeyButton) createPasskeyButton.disabled = false;
     }
@@ -113,8 +120,12 @@ function storeInfoAndRedirect(url, username) {
 }
 
 async function ambientSignIn() {
+    abortController = new AbortController();
+    abortSignal = abortController.signal;
+
     const challengeBuffer = generateRandomBuffer();
     let getOptions = {
+            signal: abortSignal,
             mediation: "conditional",
             publicKey: {
                 challenge: challengeBuffer,
@@ -124,9 +135,16 @@ async function ambientSignIn() {
                 display: "ambient",
                 allowCredentials: []
             },
-            password:true};
+            password: true};
 
-    const credential = await navigator.credentials.get(getOptions);
+    try {
+        const credential = await navigator.credentials.get(getOptions);
+    } catch (error) {
+        if (error.name == "AbortError") {
+          console.log("request aborted");
+          return;
+        }
+    }
 
     if (credential) {
         console.log("[script.js] Credential received:", credential);
