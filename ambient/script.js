@@ -164,9 +164,6 @@ async function ambientSignIn() {
 async function start() {
     console.log("[script.js] Initialization...");
 
-    const chromeVer = getChromeVersion();
-    console.log(`[script.js] Detected Chrome Version: ${chromeVer}`);
-
     if (typeof PublicKeyCredential === "undefined") {
         showMessage("WebAuthn not supported by this browser.", 'error');
         return;
