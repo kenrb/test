@@ -12,27 +12,29 @@
     <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Web Authentication Ambient Mode Passkey Demo</h1>
     <p><strong class="font-semibold">Please note</strong> that this is exercising a Chrome prototype that is subject to change.</p>
     <p>Neither the current API form nor the currently available UI are expected to be final.</p>
-    <form class="space-y-4 border border-gray-200 mb-4" action="site.html" method="get">
-      <p>Password-based sign-in is here to save credentials to a password manager.</p>
-      <p>WebAuthn Conditional UI is not supported because it does not yet work with Ambient in Chrome.</p>
-      <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-              Username:
-          </label>
-          <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                 type="text" id="username" name="username" placeholder="Enter your username" required>
-          </div>
-          <div class="mb-6">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                  Password:
-              </label>
-              <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-                     type="password" id="password" name="password" placeholder="••••••••" required>
-          </div>
-          <button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300" 
-                  type="submit">
-              Sign In With Password
-          </button>
+    <form class="space-y-4 border-2 border-blue-700 mb-4 rounded-2xl" action="site.html" method="get">
+        <div class="mb-2">
+            <p>Password-based sign-in is here to save credentials to a password manager.</p>
+            <p>WebAuthn Conditional UI is not supported because it does not yet work with Ambient in Chrome.</p>
+            <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                Username:
+            </label>
+            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                   type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Password:
+                </label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                       type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300" 
+                    type="submit">
+                Sign In With Password
+            </button>
+        </div>
     </form>
   
     <button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300" onclick="window.location='create-account.html'">
