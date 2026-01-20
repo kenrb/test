@@ -127,18 +127,19 @@ async function ambientSignIn() {
     let getOptions = {
             signal: abortSignal,
             mediation: "conditional",
+            uiMode: "passive",
             publicKey: {
                 challenge: challengeBuffer,
                 timeout: 300000,
                 userVerification: "preferred",
                 rpId: window.location.hostname,
-                display: "ambient",
                 allowCredentials: []
             },
             password: true};
 
+    let credential = null;
     try {
-        const credential = await navigator.credentials.get(getOptions);
+        credential = await navigator.credentials.get(getOptions);
     } catch (error) {
         if (error.name == "AbortError") {
           console.log("request aborted");
