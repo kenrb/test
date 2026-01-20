@@ -137,46 +137,43 @@ async function ambientSignIn() {
             },
             password: true};
 
-    let credential = null;
     try {
-        credential = await navigator.credentials.get(getOptions);
+        const credential = await navigator.credentials.get(getOptions);
+        if (credential) {
+            console.log("[script.js] Credential received:", credential);
+            let rawMethod = credential.type;
+            let methodToStore = 'Unknown';
+            let usernameToStore = "Demo User"; // Default
+    
+            if (credential.type !== 'public-key') {
+                console.log("[script.js] Unexpected credential type: ", credential.type);
+                return;
+            }
+    
+            if (credential.response && credential.response.userHandle && typeof TextDecoder !== "undefined") {
+                try {
+                    const decodedUsername = new TextDecoder().decode(credential.response.userHandle);
+                    if (decodedUsername) {
+                        usernameToStore = decodedUsername;
+                        console.log("[script.js] Decoded username from userHandle:", usernameToStore);
+                    } else { console.warn("[script.js] UserHandle decoded to empty string."); }
+                } catch (decodeError) {
+                    console.error("[script.js] Failed to decode userHandle:", decodeError);
+                }
+            } else {
+                console.warn("[script.js] UserHandle not found or TextDecoder not supported. Using default username 'Demo User'.");
+            }
+    
+            storeInfoAndRedirect('site.html', usernameToStore);
+        } else {
+             console.log("[script.js] navigator.credentials.get returned null.");
+             showMessage("Something went wrong with the navigator.credentials.get call :(", true);
+        }
     } catch (error) {
         if (error.name == "AbortError") {
           console.log("request aborted");
           return;
         }
-    }
-
-    if (credential) {
-        console.log("[script.js] Credential received:", credential);
-        let rawMethod = credential.type;
-        let methodToStore = 'Unknown';
-        let usernameToStore = "Demo User"; // Default
-
-        if (credential.type !== 'public-key') {
-            console.log("[script.js] Unexpected credential type: ", credential.type);
-            return;
-        }
-
-        if (credential.response && credential.response.userHandle && typeof TextDecoder !== "undefined") {
-            try {
-                const decodedUsername = new TextDecoder().decode(credential.response.userHandle);
-                if (decodedUsername) {
-                    usernameToStore = decodedUsername;
-                    console.log("[script.js] Decoded username from userHandle:", usernameToStore);
-                } else { console.warn("[script.js] UserHandle decoded to empty string."); }
-            } catch (decodeError) {
-                console.error("[script.js] Failed to decode userHandle:", decodeError);
-            }
-        } else {
-            console.warn("[script.js] UserHandle not found or TextDecoder not supported. Using default username 'Demo User'.");
-        }
-
-        storeInfoAndRedirect('site.html', usernameToStore);
-
-    } else {
-         console.log("[script.js] navigator.credentials.get returned null.");
-         showMessage("Something went wrong with the navigator.credentials.get call :(", true);
     }
 }
 
