@@ -127,7 +127,7 @@ async function ambientSignIn() {
     let getOptions = {
             signal: abortSignal,
             mediation: "conditional",
-            uiMode: "passive",
+            //uiMode: "passive",
             publicKey: {
                 challenge: challengeBuffer,
                 timeout: 300000,
