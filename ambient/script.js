@@ -9,6 +9,11 @@ function showMessage(text, isError = false) {
     messageArea.className = `mt-6 text-center text-sm min-h-[20px] ${isError ? 'text-red-600 font-semibold' : 'text-gray-600'}`;
 }
 
+function getChromeVersion() {
+    const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+    return raw ? parseInt(raw[2], 10) : false;
+}
+
 function generateRandomBuffer(len = 32) {
     if (!window.crypto || !window.crypto.getRandomValues) {
         console.error("Web Crypto API not available.");
@@ -124,18 +129,36 @@ async function ambientSignIn() {
     abortSignal = abortController.signal;
 
     const challengeBuffer = generateRandomBuffer();
-    let getOptions = {
-            signal: abortSignal,
-            mediation: "conditional",
-            //uiMode: "passive",
-            publicKey: {
-                challenge: challengeBuffer,
-                timeout: 300000,
-                userVerification: "preferred",
-                rpId: window.location.hostname,
-                allowCredentials: []
-            },
-            password: true};
+    const chromeVer = getChromeVersion();
+    let getOptions = {};
+    if (chromeVer !== false && chromeVer <= 145) {
+        // Until 146, the Chrome protype assumed any conditional request with passwords
+        // was intended to be Ambient, when the flag was enabled.
+        getOptions = {
+                signal: abortSignal,
+                mediation: "conditional",
+                publicKey: {
+                    challenge: challengeBuffer,
+                    timeout: 300000,
+                    userVerification: "preferred",
+                    rpId: window.location.hostname,
+                    allowCredentials: []
+                },
+                password: true};
+    } else {
+        getOptions = {
+                signal: abortSignal,
+                mediation: "conditional",
+                uiMode: "passive",
+                publicKey: {
+                    challenge: challengeBuffer,
+                    timeout: 300000,
+                    userVerification: "preferred",
+                    rpId: window.location.hostname,
+                    allowCredentials: []
+                },
+                password: true};
+    }
 
     try {
         const credential = await navigator.credentials.get(getOptions);
