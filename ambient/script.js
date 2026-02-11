@@ -109,14 +109,16 @@ async function createPasskey(currentUsername) {
     }
 }
 
-function storeInfoAndRedirect(url, username) {
+function storeInfoAndRedirect(url, username, credentialType) {
     console.log(`[script.js] Attempting to store info before redirect: username='${username}'`);
     try {
         console.log('[script.js] Clearing sessionStorage...');
         sessionStorage.clear();
         sessionStorage.setItem('username', username);
+        sessionStorage.setItem('credentialType', credentialType);
         console.log('[script.js] Session storage updated. Current values:');
         console.log(`  username: ${sessionStorage.getItem('username')}`);
+        console.log(`  credentialType: ${sessionStorage.getItem('credentialType')}`);
     } catch (e) {
         console.error("[script.js] Session storage error:", e);
     }
@@ -165,10 +167,9 @@ async function ambientSignIn() {
         if (credential) {
             console.log("[script.js] Credential received:", credential);
             let rawMethod = credential.type;
-            let methodToStore = 'Unknown';
             let usernameToStore = "Demo User"; // Default
     
-            if (credential.type !== 'public-key') {
+            if (credential.type !== 'public-key' && credential.type !== 'password') {
                 console.log("[script.js] Unexpected credential type: ", credential.type);
                 return;
             }
@@ -187,7 +188,7 @@ async function ambientSignIn() {
                 console.warn("[script.js] UserHandle not found or TextDecoder not supported. Using default username 'Demo User'.");
             }
     
-            storeInfoAndRedirect('site.html', usernameToStore);
+            storeInfoAndRedirect('site.html', usernameToStore, credential.type);
         } else {
              console.log("[script.js] navigator.credentials.get returned null.");
              showMessage("Something went wrong with the navigator.credentials.get call :(", true);
