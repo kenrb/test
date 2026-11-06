@@ -25,13 +25,16 @@ function generateRandomBuffer(len = 32) {
     return randomBytes;
 }
 
-async function createPasskey(currentUsername) {
+async function createPasskey(username, displayName) {
+    // Fall back to username if displayName is empty or undefined
+    const finalDisplayName = displayName ? displayName : username;
+
     if (abortController) {
         console.log("Aborting conditional request to create a passkey.");
         abortController.abort();  
     }
 
-    if (currentUsername === "") {
+    if (username === "") {
         showMessage("Enter a username for the new passkey", true);
         return;
     }
@@ -48,14 +51,14 @@ async function createPasskey(currentUsername) {
 
         // ** DEMO ONLY: Encode username into user.id **
         // ** WARNING: Not recommended for production! Use a stable, non-personally-identifiable ID. **
-        const userIdBuffer = new TextEncoder().encode(currentUsername);
+        const userIdBuffer = new TextEncoder().encode(username);
 
         const publicKeyCredentialCreationOptions = {
             rp: { name: "Test Page", id: window.location.hostname },
             user: {
                 id: userIdBuffer, // Use encoded username as user handle
-                name: currentUsername, // Username (for account selection hints)
-                displayName: currentUsername, // Display name (for account selection hints)
+                name: username, // Username (for account selection hints)
+                displayName: finalDisplayName, // Display name (for account selection hints)
             },
             challenge: challengeBuffer,
             pubKeyCredParams: [ { type: "public-key", alg: -7 }, { type: "public-key", alg: -257 } ],
